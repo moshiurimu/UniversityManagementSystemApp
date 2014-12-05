@@ -137,5 +137,18 @@ namespace UniversityManagementSystemApp.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult GetCourseInfo(int courseId)
+        {
+            var courseInfo = db.Courses.Where(s => s.CourseId == courseId).FirstOrDefault();
+
+            return Json(courseInfo, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetAllTeacher(int departmentId)
+        {
+            var teachers = db.Teachers.Where(x => x.DepartmentId == departmentId);
+            return Json(teachers, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -124,5 +124,25 @@ namespace UniversityManagementSystemApp.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public JsonResult CodeExist(string code)
+        {
+            var deprtCode = db.Departments.Where(s => s.Code == code).FirstOrDefault();
+            if (deprtCode != null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult NameExist(string name)
+        {
+            var deprtCode = db.Departments.Where(s => s.Name == name).FirstOrDefault();
+            if (deprtCode != null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
     }
 }

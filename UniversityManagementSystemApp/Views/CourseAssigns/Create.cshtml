@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DepartmentId, "DepartmentId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("DepartmentId", null,"Select a Department" ,htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -27,8 +27,11 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TeacherId, "TeacherId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
+                @*@Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control" })*@
+                <select class="form-control" name="TeacherId" id="TeacherId">
+                    
+                </select>
+                @*@Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })*@
             </div>
         </div>
         
@@ -49,9 +52,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseId, "CourseId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseId, "Course", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("CourseId", null,"--Select--" ,htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -86,4 +89,53 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function() {
+            $("#CourseId").change(function () {
+                var optionSelected = $(this).find("option:selected");
+                var courseId = optionSelected.val();
+                var mydata = { courseId: courseId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCourseInfo", "CourseAssigns")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(mydata),
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#Course_Name").val(data.Name);
+                        $("#Credit").val(data.Credit);
+
+                    },
+                });
+            });
+            
+            $("#DepartmentId").change(function () {
+                var optionSelected = $(this).find("option:selected");
+                var depId = optionSelected.val();
+                var mydata = { departmentId: depId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllTeacher", "CourseAssigns")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(mydata),
+                    dataType: "json",
+                    success: function (data) {
+                        
+                        
+                        var mySelect = $('#TeacherId');
+                        $.each(data, function (val, text) {
+                            mySelect.append(
+                                $('<option></option>').val(text.TeacherId).html(text.Name)
+                            );
+                        });
+                      
+                    },
+                });
+            });
+        });
+    </script>
+    
+
 }

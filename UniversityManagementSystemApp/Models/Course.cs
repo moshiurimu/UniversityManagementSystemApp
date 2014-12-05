@@ -14,7 +14,7 @@ namespace UniversityManagementSystemApp.Models
         [Display(Name = "Course Code")]
         public string Code { get; set; }
         public int Credit { get; set; }
-         [Display(Name = "Course Name")]
+        [Display(Name = "Course Name")]
         public string Name { get; set; }
         public string Description { get; set; }
         public string Semester { get; set; }

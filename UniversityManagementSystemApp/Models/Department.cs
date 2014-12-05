@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace UniversityManagementSystemApp.Models
 {
@@ -12,8 +13,11 @@ namespace UniversityManagementSystemApp.Models
         [Key]
         public int DepartmentId { get; set; }
          [Display(Name = "Department Code")]
+         [Remote("CodeExist", "Departments", ErrorMessage = " Code already Exist")]
         public string Code { get; set; }
+
          [Display(Name = "Department Name")]
+         [Remote("NameExist", "Departments", ErrorMessage = " Name already Exist")]
         public string Name { get; set; }
 
         [NotMapped]

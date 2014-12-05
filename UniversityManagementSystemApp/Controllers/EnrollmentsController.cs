@@ -41,7 +41,7 @@ namespace UniversityManagementSystemApp.Controllers
         public ActionResult Create()
         {
             ViewBag.CourseId = new SelectList(db.Courses, "CourseId", "Code");
-            ViewBag.StudentId = new SelectList(db.Students, "StudentId", "Name");
+            ViewBag.StudentId = new SelectList(db.Students, "StudentId", "StudentId");
             return View();
         }
 
@@ -133,5 +133,7 @@ namespace UniversityManagementSystemApp.Controllers
             }
             base.Dispose(disposing);
         }
+
+       
     }
 }

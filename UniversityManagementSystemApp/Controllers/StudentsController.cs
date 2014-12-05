@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using UniversityManagementSystemApp.Context;
 using UniversityManagementSystemApp.Models;
+using UniversityManagementSystemApp.Views.viewModel;
 
 namespace UniversityManagementSystemApp.Controllers
 {
@@ -128,6 +129,13 @@ namespace UniversityManagementSystemApp.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult GetStudentInfo(int studentId)
+        {
+           
+            var studentInfo = db.Students.Where(s => s.StudentId == studentId).Select(x=> new StudentBasicInfo(){Name = x.Name,DepartmentName = x.Department.Name,Email = x.Email}).FirstOrDefault();
+            return Json(studentInfo, JsonRequestBehavior.AllowGet);
         }
     }
 }
